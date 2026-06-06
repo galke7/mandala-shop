@@ -10,10 +10,31 @@
     <link href="css/styles.css" rel="stylesheet" />
   </head>
   <body>
-    <main class="container py-5 text-center">
-      <h1>מנדלות בעבודת יד</h1>
-      <p>שלום! החנות בבנייה 🧶</p>
-    </main>
+    <header class="site-header">
+      <div class="brand">מנדלות בעבודת יד</div>
+      <form class="search" role="search">
+        <input type="search" aria-label="חיפוש מוצרים" placeholder="חיפוש..." />
+      </form>
+      <button class="cart-btn" aria-label="פתיחת סל הקניות">
+        🛒 <span class="cart-count" data-cart-count>0</span>
+      </button>
+    </header>
+
+    <section class="hero">
+      <h1>מנדלות סרוגות בעבודת יד</h1>
+      <p>כל פריט נסרג בהזמנה אישית באהבה</p>
+      <a class="btn btn-primary" href="#products">לצפייה במוצרים</a>
+    </section>
+
+    <section id="products" class="products container">
+      <!-- product cards rendered here in Phase 2 -->
+    </section>
+
+    <footer class="site-footer">
+      <div class="col"><h3>אודות</h3><p>מנדלות סרוגות בעבודת יד.</p></div>
+      <div class="col"><h3>צרו קשר</h3><p>margalitag@gmail.com</p></div>
+      <div class="col"><h3>משלוחים</h3><p>משלוח לכל הארץ.</p></div>
+    </footer>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

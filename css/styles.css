@@ -1,2 +1,112 @@
-/* styles added in Phase 1 */
+html {
+    scroll-behavior: smooth;
+}
+
 body { font-family: system-ui, "Segoe UI", Arial, sans-serif; }
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    padding: 0.75rem 1.5rem;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.cart-count {
+    position: relative;
+    top: -6px;
+    inset-inline-start: -6px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.25rem;
+    height: 1.25rem;
+    padding: 0 0.3rem;
+
+    background: #e63946;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 999px;
+    line-height: 1;
+}
+
+.cart-btn {
+    font-size: 1.5rem;
+    padding: 0.4rem 0.6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.hero {
+    text-align: center;
+    padding: 5rem 1.5rem;
+    min-height: 42vh;
+
+    background: linear-gradient(160deg, #f5f0fa 0%, #fdf6ff 100%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+}
+
+.hero h1 {
+  font-size: clamp(1.6rem, 4vw, 2.6rem);
+  font-weight: 800;
+  color: #2d2d2d;
+}
+ 
+.hero p {
+  font-size: 1.1rem;
+  color: #555;
+
+}
+ 
+ [id] {
+    scroll-margin-top: 5rem;
+ }
+
+ .site-footer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+
+    padding: 3rem 2rem;
+    margin-top: 4rem;
+    background: #2d2d2d;
+    color: #ccc;
+ }
+
+  
+.site-footer h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+ 
+.site-footer p {
+  font-size: 0.9rem;
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 758px) {
+    .site-footer {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        padding: 2rem 1.25rem;
+    }
+}
