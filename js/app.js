@@ -109,6 +109,21 @@ $(function () {
       .fail(() => $('#order-status').text('אירעה שגיאה בשליחה. נסו שוב.'))
       .always(() => $btn.prop('disabled', false));
   });
+
+  // Dark-mode toggle (persisted)
+  if (localStorage.getItem('mandala-theme') === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+  $('.theme-toggle').on('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('mandala-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('mandala-theme', 'dark');
+    }
+  });
 });
 
 function persist() {
