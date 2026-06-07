@@ -44,6 +44,34 @@
       <a href="#order" class="btn btn-primary" id="go-to-order">למילוי הזמנה</a>
     </aside>
 
+    <div class="modal fade" id="quick-view" tabindex="-1" aria-labelledby="quick-view-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title h5" id="quick-view-title">צפייה מהירה</h2>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="סגירה"></button>
+          </div>
+          <div class="modal-body" id="quick-view-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <script id="quick-view-tpl" type="x-tmpl-mustache">
+      <div class="qv">
+        <img src="{{image}}" alt="{{name}}" class="qv-img" />
+        <h3 class="qv-name">{{name}}</h3>
+        <p class="qv-price">
+          {{#salePrice}}<span class="old-price">{{price}} ₪</span> <strong>{{salePrice}} ₪</strong>{{/salePrice}}
+          {{^salePrice}}<strong>{{price}} ₪</strong>{{/salePrice}}
+        </p>
+        <p class="qv-desc">{{desc}}</p>
+        <label class="qv-qty-label">כמות:
+          <input type="number" class="qv-qty form-control" min="1" value="1" inputmode="numeric" />
+        </label>
+        <button class="btn btn-primary qv-add" data-id="{{id}}">הוסף לסל</button>
+      </div>
+    </script>
+
     <script id="cart-line-tpl" type="x-tmpl-mustache">
       <div class="cart-line" data-line-id="{{id}}">
         <span class="cart-line-name">{{name}}</span>

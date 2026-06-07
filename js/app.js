@@ -24,6 +24,25 @@ $(function () {
     }
   });
 
+  // Open the quick-view modal
+  $('#product-grid').on('click', '.quick-view', function () {
+    const product = findProduct(String($(this).data('id')));
+    if (!product) return;
+    const qvTpl = document.getElementById('quick-view-tpl').innerHTML;
+    $('#quick-view-body').html(Mustache.render(qvTpl, product));
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('quick-view')).show();
+  });
+
+  // Add to cart from the modal (respects the chosen quantity)
+  $('#quick-view-body').on('click', '.qv-add', function () {
+    const product = findProduct(String($(this).data('id')));
+    if (!product) return;
+    const qty = Math.max(1, parseInt($('.qv-qty').val(), 10) || 1);
+    cart = addItem(cart, product, qty);
+    persist();
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('quick-view')).hide();
+  });
+
   // Remove a line from the drawer
   $('#cart-lines').on('click', '.remove-line', function () {
     cart = removeItem(cart, String($(this).data('id')));
