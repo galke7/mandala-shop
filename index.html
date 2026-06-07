@@ -27,7 +27,7 @@
     </section>
 
     <section id="products" class="products container">
-      <!-- product cards rendered here in Phase 2 -->
+      <div class="row g-4" id="product-grid"></div>
     </section>
 
     <footer class="site-footer">
@@ -35,6 +35,22 @@
       <div class="col"><h3>צרו קשר</h3><p>margalitag@gmail.com</p></div>
       <div class="col"><h3>משלוחים</h3><p>משלוח לכל הארץ.</p></div>
     </footer>
+
+    <script id="product-card-tpl" type="x-tmpl-mustache">
+      <div class="col-6 col-md-4 col-lg-3">
+        <article class="product-card">
+          {{#badge}}<span class="badge bg-danger product-badge">{{badge}}</span>{{/badge}}
+          <img src="{{image}}" alt="{{name}}" class="product-img" />
+          <h3 class="product-name">{{name}}</h3>
+          <p class="product-price">
+            {{#salePrice}}<span class="old-price">{{price}} ₪</span> <strong>{{salePrice}} ₪</strong>{{/salePrice}}
+            {{^salePrice}}<strong>{{price}} ₪</strong>{{/salePrice}}
+          </p>
+          <button class="btn btn-primary add-to-cart" data-id="{{id}}">הוסף לסל</button>
+          <button class="btn btn-link quick-view" data-id="{{id}}">צפייה מהירה</button>
+        </article>
+      </div>
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

@@ -103,10 +103,68 @@ body { font-family: system-ui, "Segoe UI", Arial, sans-serif; }
   line-height: 1.6;
 }
 
-@media (max-width: 758px) {
+@media (max-width: 768px) {
     .site-footer {
         grid-template-columns: 1fr;
         gap: 1.5rem;
         padding: 2rem 1.25rem;
     }
+}
+
+/* --- Product grid & cards --- */
+.products {
+  padding-block: 3rem;
+}
+
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1rem;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.product-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+}
+
+.product-badge {
+  position: absolute;
+  top: 0.75rem;
+  inset-inline-end: 0.75rem;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+}
+
+.product-price {
+  margin-bottom: 0.75rem;
+}
+
+.old-price {
+  text-decoration: line-through;
+  color: #999;
+  margin-inline-end: 0.4rem;
+  font-size: 0.9em;
+}
+
+.product-card .add-to-cart {
+  margin-top: auto;
 }
