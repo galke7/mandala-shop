@@ -30,6 +30,38 @@
       <div class="row g-4" id="product-grid"></div>
     </section>
 
+    <section id="order" class="order container">
+      <h2>מילוי הזמנה</h2>
+      <form id="order-form" novalidate>
+        <div class="mb-3">
+          <label for="name" class="form-label">שם מלא</label>
+          <input type="text" id="name" class="form-control" autocomplete="name" />
+          <small class="field-error text-danger" data-error-for="name"></small>
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label">אימייל</label>
+          <input type="email" id="email" class="form-control" autocomplete="email" />
+          <small class="field-error text-danger" data-error-for="email"></small>
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">טלפון</label>
+          <input type="tel" id="phone" class="form-control" autocomplete="tel" />
+          <small class="field-error text-danger" data-error-for="phone"></small>
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">כתובת למשלוח</label>
+          <input type="text" id="address" class="form-control" autocomplete="street-address" />
+          <small class="field-error text-danger" data-error-for="address"></small>
+        </div>
+        <div class="mb-3">
+          <label for="note" class="form-label">הערות (לא חובה)</label>
+          <textarea id="note" class="form-control" rows="3" autocomplete="off"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">שליחת הזמנה</button>
+        <p id="order-status" class="order-status" aria-live="polite"></p>
+      </form>
+    </section>
+
     <footer class="site-footer">
       <div class="col"><h3>אודות</h3><p>מנדלות סרוגות בעבודת יד.</p></div>
       <div class="col"><h3>צרו קשר</h3><p>margalitag@gmail.com</p></div>
