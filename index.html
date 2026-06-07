@@ -36,6 +36,23 @@
       <div class="col"><h3>משלוחים</h3><p>משלוח לכל הארץ.</p></div>
     </footer>
 
+    <aside id="cart-drawer" class="cart-drawer" hidden>
+      <button class="close-cart" aria-label="סגירת הסל">✕</button>
+      <h2>סל הקניות</h2>
+      <div id="cart-lines"></div>
+      <p class="cart-grand">סה"כ: <span data-cart-grand>0</span> ₪</p>
+      <a href="#order" class="btn btn-primary" id="go-to-order">למילוי הזמנה</a>
+    </aside>
+
+    <script id="cart-line-tpl" type="x-tmpl-mustache">
+      <div class="cart-line" data-line-id="{{id}}">
+        <span class="cart-line-name">{{name}}</span>
+        <span class="cart-line-qty">x{{qty}}</span>
+        <span class="cart-line-total">{{lineTotal}} ₪</span>
+        <button class="btn btn-sm btn-link remove-line" data-id="{{id}}" aria-label="הסרת {{name}} מהסל">הסר</button>
+      </div>
+    </script>
+
     <script id="product-card-tpl" type="x-tmpl-mustache">
       <div class="col-6 col-md-4 col-lg-3">
         <article class="product-card">
