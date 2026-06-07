@@ -10,6 +10,7 @@
     <link href="css/styles.css" rel="stylesheet" />
   </head>
   <body>
+    <a href="#main" class="skip-link">דלג לתוכן</a>
     <header class="site-header">
       <div class="brand">מנדלות בעבודת יד</div>
       <form class="search" role="search">
@@ -20,6 +21,7 @@
       </button>
     </header>
 
+    <main id="main" tabindex="-1">
     <section class="hero">
       <h1>מנדלות סרוגות בעבודת יד</h1>
       <p>כל פריט נסרג בהזמנה אישית באהבה</p>
@@ -62,13 +64,15 @@
       </form>
     </section>
 
+    </main>
+
     <footer class="site-footer">
       <div class="col"><h3>אודות</h3><p>מנדלות סרוגות בעבודת יד.</p></div>
       <div class="col"><h3>צרו קשר</h3><p>margalitag@gmail.com</p></div>
       <div class="col"><h3>משלוחים</h3><p>משלוח לכל הארץ.</p></div>
     </footer>
 
-    <aside id="cart-drawer" class="cart-drawer" hidden>
+    <aside id="cart-drawer" class="cart-drawer" aria-label="סל הקניות" hidden>
       <button class="close-cart" aria-label="סגירת הסל">✕</button>
       <h2>סל הקניות</h2>
       <div id="cart-lines"></div>

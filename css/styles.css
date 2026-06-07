@@ -234,3 +234,21 @@ body { font-family: system-ui, "Segoe UI", Arial, sans-serif; }
 .order h2 { margin-bottom: 1.5rem; }
 .field-error { display: block; min-height: 1.2em; }
 .order-status { margin-top: 1rem; font-weight: 600; }
+
+/* --- Accessibility --- */
+:focus-visible {
+  outline: 3px solid #5b3fd6;
+  outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  inset-inline-start: 0;
+  top: -3rem;
+  z-index: 2000;
+  padding: 0.5rem 1rem;
+  background: #5b3fd6;
+  color: #fff;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 0; }
