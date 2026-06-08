@@ -14,3 +14,18 @@ export function serializeProduct(p) {
   const pairs = Object.keys(p).map((k) => `${k}: ${serializeValue(p[k])}`);
   return `{ ${pairs.join(', ')} }`;
 }
+
+const FILE_RE = /^([\s\S]*?export const products = \[\n)([\s\S]*?)(\n\];[\s\S]*)$/;
+
+export function parseProducts(text) {
+  const m = text.match(FILE_RE);
+  if (!m) throw new Error('productStore: unrecognized products.js structure');
+  const [, header, body, footer] = m;
+  const products = vm.runInNewContext('[' + body + ']');
+  return { header, products, footer };
+}
+
+export function serialize({ header, products, footer }) {
+  const body = products.map((p) => '  ' + serializeProduct(p) + ',').join('\n');
+  return header + body + footer;
+}
