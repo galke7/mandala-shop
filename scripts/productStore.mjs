@@ -91,3 +91,18 @@ export function setField(products, id, field, value) {
   copy[i] = updated;
   return copy;
 }
+
+export function replaceImage(products, id, imagePath) {
+  if (!imagePath) throw new Error('replaceImage: imagePath required');
+  const i = findIndexById(products, id);
+  if (i === -1) throw new Error(`replaceImage: no product "${id}"`);
+  const copy = [...products];
+  copy[i] = { ...products[i], image: String(imagePath) };
+  return copy;
+}
+
+export function remove(products, id) {
+  const i = findIndexById(products, id);
+  if (i === -1) throw new Error(`remove: no product "${id}"`);
+  return products.filter((_, idx) => idx !== i);
+}

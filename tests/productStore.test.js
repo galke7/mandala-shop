@@ -7,6 +7,7 @@ import { parseProducts, serialize } from '../scripts/productStore.mjs';
 import { nextId, findIndexById } from '../scripts/productStore.mjs';
 import { add } from '../scripts/productStore.mjs';
 import { setField } from '../scripts/productStore.mjs';
+import { replaceImage, remove } from '../scripts/productStore.mjs';
 
 const REAL = readFileSync(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
@@ -119,5 +120,26 @@ describe('setField', () => {
   it('rejects a non-settable field (id, __proto__)', () => {
     expect(() => setField(base(), 'p1', 'id', 'p9')).toThrow(/settable/);
     expect(() => setField(base(), 'p1', '__proto__', 'x')).toThrow(/settable/);
+  });
+});
+
+describe('replaceImage / remove', () => {
+  const base = () => parseProducts(REAL).products;
+  it('replaceImage swaps only the image field', () => {
+    const out = replaceImage(base(), 'p4', 'images/25cm-p4-v2.jpg');
+    const p4 = out.find((p) => p.id === 'p4');
+    expect(p4.image).toBe('images/25cm-p4-v2.jpg');
+    expect(p4.name).toBe(base().find((p) => p.id === 'p4').name);
+  });
+  it('replaceImage throws on unknown id', () => {
+    expect(() => replaceImage(base(), 'pX', 'a.jpg')).toThrow(/pX/);
+  });
+  it('remove deletes by id and preserves order of the rest', () => {
+    const out = remove(base(), 'p3');
+    expect(out).toHaveLength(5);
+    expect(out.map((p) => p.id)).toEqual(['p1', 'p2', 'p4', 'p5', 'p6']);
+  });
+  it('remove throws on unknown id', () => {
+    expect(() => remove(base(), 'pX')).toThrow(/pX/);
   });
 });
