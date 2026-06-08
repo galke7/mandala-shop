@@ -29,3 +29,15 @@ export function serialize({ header, products, footer }) {
   const body = products.map((p) => '  ' + serializeProduct(p) + ',').join('\n');
   return header + body + footer;
 }
+
+export function findIndexById(products, id) {
+  return products.findIndex((p) => p.id === id);
+}
+
+export function nextId(products) {
+  const max = products.reduce((acc, p) => {
+    const m = /^p(\d+)$/.exec(p.id);
+    return m ? Math.max(acc, Number(m[1])) : acc;
+  }, 0);
+  return 'p' + (max + 1);
+}
