@@ -7,7 +7,7 @@ export const products = [
   { id: 'p4', name: 'מנדלה תלת-ממד  25 ס״מ', price: 300, image: 'images/25cm-IMG_20260605_143026.jpg', desc: 'מנדלה תלת-ממד סרוגה במספר שכבות בעבודת יד, קוטר כ-25 ס״מ.' },
   { id: 'p5', name: 'מנדלה מיקס צבעים 35 ס״מ', price: 320, image: 'images/34cm-IMG_20260605_142832.jpg', desc: 'מנדלה עם צמר בצבעים משתנים סרוגה בעבודת יד, קוטר כ-35 ס״מ.' },
   { id: 'p6', name: 'מנדלה ענקית מהממת 60 ס״מ', price: 400, image: 'images/60cm-IMG_20260605_142604.jpg', desc: 'מנדלה ענקית מהממת סרוגה בעבודת יד, קוטר כ-60 ס״מ.' },
-  { id: 'p7', name: 'מנדלת ניסיון 120 ס״מ', price: 3, image: 'images/120cm-p7.jpg', desc: 'מנדלת ים 🌊 בגודל משתנה' },
+  { id: 'p7', name: 'מנדלת ים 🌊 בגודל משתנה', price: 3, image: 'images/120cm-p7.jpg', desc: 'מנדלת ים 🌊 בגודל משתנה' },
 ];
 
 export function findProduct(id) {
