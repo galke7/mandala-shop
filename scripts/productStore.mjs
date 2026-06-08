@@ -58,3 +58,36 @@ export function add(products, fields) {
   product.desc = String(fields.desc);
   return [...products, product];
 }
+
+const SETTABLE = ['name', 'price', 'desc', 'salePrice', 'badge', 'soldOut'];
+
+export function setField(products, id, field, value) {
+  if (!SETTABLE.includes(field)) throw new Error(`setField: field "${field}" is not settable`);
+  const i = findIndexById(products, id);
+  if (i === -1) throw new Error(`setField: no product "${id}"`);
+  const updated = { ...products[i] };
+  const empty = value === '' || value === null || value === undefined;
+  if (field === 'price' || field === 'salePrice') {
+    if (empty) {
+      if (field === 'price') throw new Error('setField: price is required');
+      delete updated.salePrice;
+    } else {
+      const n = Number(value);
+      if (Number.isNaN(n)) throw new Error(`setField: ${field} must be a number`);
+      updated[field] = n;
+    }
+  } else if (field === 'soldOut') {
+    if (value === true || value === 'true') updated.soldOut = true;
+    else delete updated.soldOut;
+  } else { // name, desc, badge
+    if (empty) {
+      if (field === 'badge') delete updated.badge;
+      else throw new Error(`setField: ${field} cannot be empty`);
+    } else {
+      updated[field] = String(value);
+    }
+  }
+  const copy = [...products];
+  copy[i] = updated;
+  return copy;
+}

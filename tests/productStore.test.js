@@ -6,6 +6,7 @@ import { serializeProduct } from '../scripts/productStore.mjs';
 import { parseProducts, serialize } from '../scripts/productStore.mjs';
 import { nextId, findIndexById } from '../scripts/productStore.mjs';
 import { add } from '../scripts/productStore.mjs';
+import { setField } from '../scripts/productStore.mjs';
 
 const REAL = readFileSync(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
@@ -92,5 +93,31 @@ describe('add', () => {
     const arr = base();
     add(arr, { name: 'x', price: 1, image: 'a.jpg', desc: 'd' });
     expect(arr).toHaveLength(6);
+  });
+});
+
+describe('setField', () => {
+  const base = () => parseProducts(REAL).products;
+  const byId = (arr, id) => arr.find((p) => p.id === id);
+  it('updates price (coerced to number) in place', () => {
+    expect(byId(setField(base(), 'p1', 'price', '340'), 'p1').price).toBe(340);
+  });
+  it('rejects a non-numeric price', () => {
+    expect(() => setField(base(), 'p1', 'price', 'abc')).toThrow(/number/);
+  });
+  it('adds salePrice and removes it when set empty', () => {
+    expect(byId(setField(base(), 'p1', 'salePrice', 240), 'p1').salePrice).toBe(240);
+    expect(byId(setField(base(), 'p2', 'salePrice', ''), 'p2')).not.toHaveProperty('salePrice');
+  });
+  it('soldOut true adds the key; false removes it', () => {
+    expect(byId(setField(base(), 'p1', 'soldOut', 'true'), 'p1').soldOut).toBe(true);
+    expect(byId(setField(base(), 'p5', 'soldOut', 'false'), 'p5')).not.toHaveProperty('soldOut');
+  });
+  it('throws on unknown id', () => {
+    expect(() => setField(base(), 'pX', 'price', 1)).toThrow(/pX/);
+  });
+  it('rejects a non-settable field (id, __proto__)', () => {
+    expect(() => setField(base(), 'p1', 'id', 'p9')).toThrow(/settable/);
+    expect(() => setField(base(), 'p1', '__proto__', 'x')).toThrow(/settable/);
   });
 });
