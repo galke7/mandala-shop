@@ -109,6 +109,7 @@
     <script id="quick-view-tpl" type="x-tmpl-mustache">
       <div class="qv">
         <img src="{{image}}" alt="{{name}}" class="qv-img" />
+        {{#badgeText}}<span class="badge {{badgeClass}}">{{badgeText}}</span>{{/badgeText}}
         <h3 class="qv-name">{{name}}</h3>
         <p class="qv-price">
           {{#salePrice}}<span class="old-price">{{price}} ₪</span> <strong>{{salePrice}} ₪</strong>{{/salePrice}}
@@ -118,7 +119,7 @@
         <label class="qv-qty-label">כמות:
           <input type="number" class="qv-qty form-control" min="1" value="1" inputmode="numeric" />
         </label>
-        <button class="btn btn-primary qv-add" data-id="{{id}}">הוסף לסל</button>
+        <button class="btn btn-primary qv-add" data-id="{{id}}" {{#soldOut}}disabled aria-disabled="true"{{/soldOut}}>הוסף לסל</button>
       </div>
     </script>
 
@@ -133,15 +134,15 @@
 
     <script id="product-card-tpl" type="x-tmpl-mustache">
       <div class="col-6 col-md-4 col-lg-3">
-        <article class="product-card">
-          {{#badge}}<span class="badge bg-danger product-badge">{{badge}}</span>{{/badge}}
+        <article class="product-card {{#soldOut}}is-sold-out{{/soldOut}}">
+          {{#badgeText}}<span class="badge {{badgeClass}} product-badge">{{badgeText}}</span>{{/badgeText}}
           <img src="{{image}}" alt="{{name}}" class="product-img" />
           <h3 class="product-name">{{name}}</h3>
           <p class="product-price">
             {{#salePrice}}<span class="old-price">{{price}} ₪</span> <strong>{{salePrice}} ₪</strong>{{/salePrice}}
             {{^salePrice}}<strong>{{price}} ₪</strong>{{/salePrice}}
           </p>
-          <button class="btn btn-primary add-to-cart" data-id="{{id}}">הוסף לסל</button>
+          <button class="btn btn-primary add-to-cart" data-id="{{id}}" {{#soldOut}}disabled aria-disabled="true"{{/soldOut}}>הוסף לסל</button>
           <button class="btn btn-link quick-view" data-id="{{id}}">צפייה מהירה</button>
         </article>
       </div>

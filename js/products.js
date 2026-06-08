@@ -1,4 +1,5 @@
-// Shape: { id, name, price, salePrice?, image, badge?, desc }  — salePrice & badge are optional.
+// Shape: { id, name, price, salePrice?, image, badge?, soldOut?, desc }
+// salePrice/badge/soldOut are optional. soldOut: true → "אזל המלאי" badge + cannot be added to cart.
 export const products = [
   { id: 'p1', name: 'מנדלה פרח 20 ס״מ', price: 320, image: 'images/20cm-IMG_20260605_142333.jpg', desc: 'מנדלה פרח סרוגה בעבודת יד עם מספר שכבות, קוטר כ-20 ס״מ.' },
   { id: 'p2', name: 'מנדלה לוכד חלומות על מסגרת עץ 20 ס״מ', price: 270, badge: 'מבצע', salePrice: 240, image: 'images/20cm-wooden-IMG_20260605_142713.jpg', desc: 'מנדלה לוכד חלומות סרוגה מתוחה על מסגרת עץ, קוטר כ-20 ס״מ.' },

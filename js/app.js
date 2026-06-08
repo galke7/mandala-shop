@@ -1,4 +1,5 @@
 import { products, findProduct } from './products.js';
+import { toCardView } from './catalog.js';
 import { addItem, removeItem, cartTotal, cartCount } from './cart.js';
 import { loadCart, saveCart } from './storage.js';
 import { validateOrderForm } from './validation.js';
@@ -17,7 +18,7 @@ $(function () {
   // Render the product grid (Mustache over the product array ≈ a Liquid {% for %} loop)
   const cardTpl = document.getElementById('product-card-tpl').innerHTML;
   Mustache.parse(cardTpl);
-  $('#product-grid').html(products.map((p) => Mustache.render(cardTpl, p)).join(''));
+  $('#product-grid').html(products.map((p) => Mustache.render(cardTpl, toCardView(p))).join(''));
 
   // Pre-parse the cart line template
   Mustache.parse(document.getElementById('cart-line-tpl').innerHTML);
@@ -27,7 +28,7 @@ $(function () {
   // Add to cart from the grid
   $('#product-grid').on('click', '.add-to-cart', function () {
     const product = findProduct(String($(this).data('id')));
-    if (product) {
+    if (product && !product.soldOut) {
       cart = addItem(cart, product);
       persist();
       showToast(product);
@@ -39,14 +40,14 @@ $(function () {
     const product = findProduct(String($(this).data('id')));
     if (!product) return;
     const qvTpl = document.getElementById('quick-view-tpl').innerHTML;
-    $('#quick-view-body').html(Mustache.render(qvTpl, product));
+    $('#quick-view-body').html(Mustache.render(qvTpl, toCardView(product)));
     bootstrap.Modal.getOrCreateInstance(document.getElementById('quick-view')).show();
   });
 
   // Add to cart from the modal (respects the chosen quantity)
   $('#quick-view-body').on('click', '.qv-add', function () {
     const product = findProduct(String($(this).data('id')));
-    if (!product) return;
+    if (!product || product.soldOut) return;
     const qty = Math.max(1, parseInt($('.qv-qty').val(), 10) || 1);
     cart = addItem(cart, product, qty);
     persist();
