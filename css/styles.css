@@ -146,6 +146,9 @@ body { font-family: system-ui, "Segoe UI", Arial, sans-serif; }
   position: absolute;
   top: 0.75rem;
   inset-inline-end: 0.75rem;
+  z-index: 2;                    /* paint above the product image — sold-out images get
+                                    opacity/filter (a stacking context) that would otherwise
+                                    cover the badge */
 }
 
 .product-name {
