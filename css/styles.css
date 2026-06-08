@@ -304,3 +304,15 @@ html[data-theme="dark"] .cart-toast {
   background: #26262b;
   color: #e6e6e6;
 }
+
+/* --- Out of stock --- */
+.product-card.is-sold-out .product-img {
+  filter: grayscale(0.6);
+  opacity: 0.7;
+}
+.product-card.is-sold-out .add-to-cart {
+  cursor: not-allowed;
+}
+html[data-theme="dark"] .product-card.is-sold-out .product-img {
+  opacity: 0.55;
+}
