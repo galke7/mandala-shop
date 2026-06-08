@@ -41,3 +41,20 @@ export function nextId(products) {
   }, 0);
   return 'p' + (max + 1);
 }
+
+const REQUIRED = ['name', 'price', 'image', 'desc'];
+
+export function add(products, fields) {
+  for (const k of REQUIRED) {
+    if (fields[k] === undefined || fields[k] === '') throw new Error(`add: missing required field "${k}"`);
+  }
+  const price = Number(fields.price);
+  if (Number.isNaN(price)) throw new Error('add: price must be a number');
+  const product = { id: nextId(products), name: String(fields.name), price };
+  if (fields.salePrice !== undefined && fields.salePrice !== '') product.salePrice = Number(fields.salePrice);
+  if (fields.badge) product.badge = String(fields.badge);
+  if (fields.soldOut === true || fields.soldOut === 'true') product.soldOut = true;
+  product.image = String(fields.image);
+  product.desc = String(fields.desc);
+  return [...products, product];
+}
