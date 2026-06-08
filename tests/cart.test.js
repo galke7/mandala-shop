@@ -3,6 +3,7 @@ import { addItem, removeItem, setQty, lineTotal, cartTotal, cartCount } from '..
 
 const product = { id: 'p1', name: 'מנדלה כחולה', price: 120 };
 const onSale = { id: 'p2', name: 'מנדלה אדומה', price: 100, salePrice: 80 };
+const soldOut = { id: 'p3', name: 'מנדלה אזלה', price: 150, soldOut: true };
 
 describe('addItem', () => {
   it('adds a new line with qty 1 by default', () => {
@@ -20,6 +21,13 @@ describe('addItem', () => {
     const original = [];
     addItem(original, product);
     expect(original).toEqual([]);
+  });
+  it('refuses to add a sold-out product', () => {
+    expect(addItem([], soldOut)).toEqual([]);
+  });
+  it('does not bump an existing line for a sold-out product', () => {
+    const cart = [{ id: 'p3', name: 'מנדלה אזלה', price: 150, qty: 1 }];
+    expect(addItem(cart, soldOut, 2)).toEqual(cart);
   });
 });
 
