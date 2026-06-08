@@ -3,6 +3,7 @@ import { addItem, removeItem, cartTotal, cartCount } from './cart.js';
 import { loadCart, saveCart } from './storage.js';
 import { validateOrderForm } from './validation.js';
 import { buildOrderPayload } from './order.js';
+import { addedToCartMessage } from './toast.js';
 
 // Web3Forms access key — public by design (it's an alias for the recipient inbox).
 // Currently delivers to gal.kerem@gmail.com (soft-launch). Flip the key's recipient to
@@ -10,6 +11,7 @@ import { buildOrderPayload } from './order.js';
 const ACCESS_KEY = '24273511-b70f-4f03-8c54-291465b562ea';
 
 let cart = loadCart();
+let toastTimer = null;
 
 $(function () {
   // Render the product grid (Mustache over the product array ≈ a Liquid {% for %} loop)
@@ -28,6 +30,7 @@ $(function () {
     if (product) {
       cart = addItem(cart, product);
       persist();
+      showToast(product);
     }
   });
 
@@ -48,6 +51,7 @@ $(function () {
     cart = addItem(cart, product, qty);
     persist();
     bootstrap.Modal.getOrCreateInstance(document.getElementById('quick-view')).hide();
+    showToast(product);
   });
 
   // Remove a line from the drawer
@@ -60,6 +64,13 @@ $(function () {
   $('.cart-btn').on('click', () => $('#cart-drawer').prop('hidden', false));
   $('.close-cart').on('click', () => $('#cart-drawer').prop('hidden', true));
   $('#go-to-order').on('click', () => $('#cart-drawer').prop('hidden', true));
+
+  // Toast actions: open the cart drawer, or dismiss and keep shopping
+  $('.toast-go-cart').on('click', () => {
+    $('#cart-drawer').prop('hidden', false);
+    hideToast();
+  });
+  $('.toast-continue').on('click', hideToast);
 
   // Submit the order to Web3Forms
   $('#order-form').on('submit', function (e) {
@@ -129,6 +140,18 @@ $(function () {
 function persist() {
   saveCart(cart);
   renderCart();
+}
+
+function showToast(product) {
+  $('[data-toast-msg]').text(addedToCartMessage(product));
+  $('#cart-toast').prop('hidden', false);
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(hideToast, 4000);
+}
+
+function hideToast() {
+  clearTimeout(toastTimer);
+  $('#cart-toast').prop('hidden', true);
 }
 
 function renderCart() {
