@@ -81,6 +81,14 @@
       <a href="#order" class="btn btn-primary" id="go-to-order">למילוי הזמנה</a>
     </aside>
 
+    <div id="cart-toast" class="cart-toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+      <span class="cart-toast-msg" data-toast-msg></span>
+      <div class="cart-toast-actions">
+        <button type="button" class="btn btn-primary btn-sm toast-go-cart">מעבר לסל</button>
+        <button type="button" class="btn btn-link btn-sm toast-continue">המשך קנייה</button>
+      </div>
+    </div>
+
     <div class="modal fade" id="quick-view" tabindex="-1" aria-labelledby="quick-view-title" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
