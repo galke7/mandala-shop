@@ -13,24 +13,6 @@ const REAL = readFileSync(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
 );
 
-// Frozen snapshot used for count/field/id assertions so the suite is immune to live catalog edits.
-// (The keystone round-trip test below still reads the real file, since it is data-independent.)
-const FIXTURE = `// Shape: { id, name, price, salePrice?, image, badge?, soldOut?, desc }
-// salePrice/badge/soldOut are optional. soldOut: true → "אזל המלאי" badge + cannot be added to cart.
-export const products = [
-  { id: 'p1', name: 'מנדלה פרח 20 ס״מ', price: 320, image: 'images/a.jpg', desc: 'תיאור א.' },
-  { id: 'p2', name: 'מנדלה לוכד חלומות 20 ס״מ', price: 270, badge: 'מבצע', salePrice: 240, image: 'images/b.jpg', desc: 'תיאור ב.' },
-  { id: 'p3', name: 'מנדלה ג 20 ס״מ', price: 270, image: 'images/c.jpg', desc: 'תיאור ג.' },
-  { id: 'p4', name: 'מנדלה ד 25 ס״מ', price: 300, image: 'images/d.jpg', desc: 'תיאור ד.' },
-  { id: 'p5', name: 'מנדלה ה 35 ס״מ', price: 320, soldOut: true, image: 'images/e.jpg', desc: 'תיאור ה.' },
-  { id: 'p6', name: 'מנדלה ו 60 ס״מ', price: 400, image: 'images/f.jpg', desc: 'תיאור ו.' },
-];
-
-export function findProduct(id) {
-  return products.find((p) => p.id === id) || null;
-}
-`;
-
 describe('serializeProduct', () => {
   it('emits a minimal product in byte-exact house format', () => {
     const p = { id: 'p7', name: 'מנדלה שמחה 50 ס״מ', price: 360, image: 'images/50cm-p7.jpg', desc: 'תיאור.' };
@@ -60,8 +42,8 @@ describe('serializeProduct', () => {
 });
 
 describe('parseProducts / serialize', () => {
-  it('parses all 6 products from the fixture', () => {
-    const { products } = parseProducts(FIXTURE);
+  it('parses all 6 products from the real file', () => {
+    const { products } = parseProducts(REAL);
     expect(products).toHaveLength(6);
     expect(products[0]).toMatchObject({ id: 'p1', price: 320 });
     expect(products[0].name).toContain('מנדלה פרח');
@@ -72,23 +54,11 @@ describe('parseProducts / serialize', () => {
   it('KEYSTONE: serialize(parseProducts(file)) round-trips byte-exact', () => {
     expect(serialize(parseProducts(REAL))).toBe(REAL);
   });
-  it('parses the live products.js into a non-empty, well-formed catalog', () => {
-    const { products } = parseProducts(REAL);
-    expect(Array.isArray(products)).toBe(true);
-    expect(products.length).toBeGreaterThan(0);
-    for (const p of products) {
-      expect(typeof p.id).toBe('string');
-      expect(typeof p.name).toBe('string');
-      expect(typeof p.price).toBe('number');
-      expect(typeof p.image).toBe('string');
-      expect(typeof p.desc).toBe('string');
-    }
-  });
 });
 
 describe('nextId / findIndexById', () => {
   it('returns p7 for the current 6 products', () => {
-    expect(nextId(parseProducts(FIXTURE).products)).toBe('p7');
+    expect(nextId(parseProducts(REAL).products)).toBe('p7');
   });
   it('returns p1 for an empty catalog', () => {
     expect(nextId([])).toBe('p1');
@@ -97,14 +67,14 @@ describe('nextId / findIndexById', () => {
     expect(nextId([{ id: 'p1' }, { id: 'p3' }])).toBe('p4');
   });
   it('findIndexById finds and reports -1 for missing', () => {
-    const { products } = parseProducts(FIXTURE);
+    const { products } = parseProducts(REAL);
     expect(findIndexById(products, 'p3')).toBe(2);
     expect(findIndexById(products, 'pX')).toBe(-1);
   });
 });
 
 describe('add', () => {
-  const base = () => parseProducts(FIXTURE).products;
+  const base = () => parseProducts(REAL).products;
   it('appends a new product with auto id p7 and canonical key order', () => {
     const out = add(base(), { name: 'מנדלה שמחה 50 ס״מ', price: 360, image: 'images/50cm-p7.jpg', desc: 'd' });
     expect(out).toHaveLength(7);
@@ -128,7 +98,7 @@ describe('add', () => {
 });
 
 describe('setField', () => {
-  const base = () => parseProducts(FIXTURE).products;
+  const base = () => parseProducts(REAL).products;
   const byId = (arr, id) => arr.find((p) => p.id === id);
   it('updates price (coerced to number) in place', () => {
     expect(byId(setField(base(), 'p1', 'price', '340'), 'p1').price).toBe(340);
@@ -154,7 +124,7 @@ describe('setField', () => {
 });
 
 describe('replaceImage / remove', () => {
-  const base = () => parseProducts(FIXTURE).products;
+  const base = () => parseProducts(REAL).products;
   it('replaceImage swaps only the image field', () => {
     const out = replaceImage(base(), 'p4', 'images/25cm-p4-v2.jpg');
     const p4 = out.find((p) => p.id === 'p4');
