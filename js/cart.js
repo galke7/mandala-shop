@@ -1,4 +1,5 @@
 export function addItem(cart, product, qty = 1) {
+  if (product.soldOut) return cart;
   const price = product.salePrice ?? product.price;
   if (cart.some((i) => i.id === product.id)) {
     return cart.map((i) => (i.id === product.id ? { ...i, qty: i.qty + qty } : i));
