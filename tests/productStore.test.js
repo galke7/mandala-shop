@@ -5,6 +5,7 @@ import path from 'node:path';
 import { serializeProduct } from '../scripts/productStore.mjs';
 import { parseProducts, serialize } from '../scripts/productStore.mjs';
 import { nextId, findIndexById } from '../scripts/productStore.mjs';
+import { add } from '../scripts/productStore.mjs';
 
 const REAL = readFileSync(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
@@ -67,5 +68,29 @@ describe('nextId / findIndexById', () => {
     const { products } = parseProducts(REAL);
     expect(findIndexById(products, 'p3')).toBe(2);
     expect(findIndexById(products, 'pX')).toBe(-1);
+  });
+});
+
+describe('add', () => {
+  const base = () => parseProducts(REAL).products;
+  it('appends a new product with auto id p7 and canonical key order', () => {
+    const out = add(base(), { name: 'מנדלה שמחה 50 ס״מ', price: 360, image: 'images/50cm-p7.jpg', desc: 'd' });
+    expect(out).toHaveLength(7);
+    expect(out[6]).toEqual({ id: 'p7', name: 'מנדלה שמחה 50 ס״מ', price: 360, image: 'images/50cm-p7.jpg', desc: 'd' });
+    expect(serializeProduct(out[6])).toBe(
+      "{ id: 'p7', name: 'מנדלה שמחה 50 ס״מ', price: 360, image: 'images/50cm-p7.jpg', desc: 'd' }"
+    );
+  });
+  it('coerces price to a number and includes given optionals between price and image', () => {
+    const out = add(base(), { name: 'x', price: '300', image: 'a.jpg', desc: 'd', salePrice: '250' });
+    expect(out[6]).toEqual({ id: 'p7', name: 'x', price: 300, salePrice: 250, image: 'a.jpg', desc: 'd' });
+  });
+  it('throws when a required field is missing', () => {
+    expect(() => add(base(), { name: 'x', image: 'a.jpg', desc: 'd' })).toThrow(/price/);
+  });
+  it('does not mutate the input array', () => {
+    const arr = base();
+    add(arr, { name: 'x', price: 1, image: 'a.jpg', desc: 'd' });
+    expect(arr).toHaveLength(6);
   });
 });
