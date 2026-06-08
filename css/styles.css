@@ -316,3 +316,12 @@ html[data-theme="dark"] .cart-toast {
 html[data-theme="dark"] .product-card.is-sold-out .product-img {
   opacity: 0.55;
 }
+
+/* --- Order disclaimer --- */
+.order-disclaimer {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  line-height: 1.5;
+}
+html[data-theme="dark"] .order-disclaimer { color: #aaa; }
