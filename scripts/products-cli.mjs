@@ -11,15 +11,35 @@ const FILE = path.join(ROOT, 'js/products.js');
 
 function parseArgs(argv) {
   const out = {};
-  for (let i = 0; i < argv.length; i += 2) {
-    if (!argv[i] || !argv[i].startsWith('--')) throw new Error(`expected --flag, got "${argv[i]}"`);
-    out[argv[i].slice(2)] = argv[i + 1];
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (!token || !token.startsWith('--')) throw new Error(`expected --flag, got "${token}"`);
+    const eqIdx = token.indexOf('=');
+    if (eqIdx !== -1) {
+      // --flag=value form
+      out[token.slice(2, eqIdx)] = token.slice(eqIdx + 1);
+    } else {
+      // --flag value form
+      const key = token.slice(2);
+      const next = argv[i + 1];
+      if (next === undefined || next.startsWith('--')) {
+        out[key] = undefined;
+      } else {
+        out[key] = next;
+        i++;
+      }
+    }
   }
   return out;
 }
 const load = () => parseProducts(readFileSync(FILE, 'utf8'));
 const save = (parsed, products) => writeFileSync(FILE, serialize({ ...parsed, products }), 'utf8');
-const assertImage = (rel) => { if (!existsSync(path.join(ROOT, rel))) throw new Error(`image not found: ${rel}`); };
+const assertImage = (rel) => {
+  const abs = path.resolve(ROOT, rel ?? '');
+  const imagesDir = path.join(ROOT, 'images');
+  if (abs !== imagesDir && !abs.startsWith(imagesDir + path.sep)) throw new Error(`image must be under images/: ${rel}`);
+  if (!existsSync(abs)) throw new Error(`image not found: ${rel}`);
+};
 
 const [cmd, ...rest] = process.argv.slice(2);
 try {
@@ -38,7 +58,9 @@ try {
     save(parsed, updated);
     console.log(updated[updated.length - 1].id);
   } else if (cmd === 'set') {
-    const a = parseArgs(rest); const parsed = load();
+    const a = parseArgs(rest);
+    if (a.value === undefined) throw new Error("set requires --value (use --value '' to clear an optional field)");
+    const parsed = load();
     save(parsed, setField(parsed.products, a.id, a.field, a.value));
   } else if (cmd === 'replace-image') {
     const a = parseArgs(rest); assertImage(a.image); const parsed = load();
