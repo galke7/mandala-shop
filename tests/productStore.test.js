@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { serializeProduct } from '../scripts/productStore.mjs';
 import { parseProducts, serialize } from '../scripts/productStore.mjs';
+import { nextId, findIndexById } from '../scripts/productStore.mjs';
 
 const REAL = readFileSync(
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
@@ -49,5 +50,22 @@ describe('parseProducts / serialize', () => {
   });
   it('KEYSTONE: serialize(parseProducts(file)) round-trips byte-exact', () => {
     expect(serialize(parseProducts(REAL))).toBe(REAL);
+  });
+});
+
+describe('nextId / findIndexById', () => {
+  it('returns p7 for the current 6 products', () => {
+    expect(nextId(parseProducts(REAL).products)).toBe('p7');
+  });
+  it('returns p1 for an empty catalog', () => {
+    expect(nextId([])).toBe('p1');
+  });
+  it('uses max+1, not gap-fill', () => {
+    expect(nextId([{ id: 'p1' }, { id: 'p3' }])).toBe('p4');
+  });
+  it('findIndexById finds and reports -1 for missing', () => {
+    const { products } = parseProducts(REAL);
+    expect(findIndexById(products, 'p3')).toBe(2);
+    expect(findIndexById(products, 'pX')).toBe(-1);
   });
 });
