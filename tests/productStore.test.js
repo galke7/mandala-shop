@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
 import { serializeProduct } from '../scripts/productStore.mjs';
+import { parseProducts, serialize } from '../scripts/productStore.mjs';
+
+const REAL = readFileSync(
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../js/products.js'), 'utf8'
+);
 
 describe('serializeProduct', () => {
   it('emits a minimal product in byte-exact house format', () => {
@@ -26,5 +34,20 @@ describe('serializeProduct', () => {
   it('escapes an embedded single quote', () => {
     const out = serializeProduct({ id: 'p1', name: "מנדלה 'מיוחדת'", price: 1, image: 'a.jpg', desc: 'd' });
     expect(out).toContain("\\'מיוחדת\\'");
+  });
+});
+
+describe('parseProducts / serialize', () => {
+  it('parses all 6 products from the real file', () => {
+    const { products } = parseProducts(REAL);
+    expect(products).toHaveLength(6);
+    expect(products[0]).toMatchObject({ id: 'p1', price: 320 });
+    expect(products[0].name).toContain('מנדלה פרח');
+  });
+  it('keeps the findProduct export in the footer', () => {
+    expect(parseProducts(REAL).footer).toContain('export function findProduct');
+  });
+  it('KEYSTONE: serialize(parseProducts(file)) round-trips byte-exact', () => {
+    expect(serialize(parseProducts(REAL))).toBe(REAL);
   });
 });
