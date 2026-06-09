@@ -8,6 +8,7 @@ export const products = [
   { id: 'p5', name: 'מנדלה מיקס צבעים 35 ס״מ', price: 320, image: 'images/34cm-IMG_20260605_142832.jpg', desc: 'מנדלה עם צמר בצבעים משתנים סרוגה בעבודת יד, קוטר כ-35 ס״מ.' },
   { id: 'p6', name: 'מנדלה ענקית מהממת 60 ס״מ', price: 400, image: 'images/60cm-IMG_20260605_142604.jpg', desc: 'מנדלה ענקית מהממת סרוגה בעבודת יד, קוטר כ-60 ס״מ.' },
   { id: 'p7', name: 'מנדלת פתיתי שלג 35 ס״מ', price: 320, image: 'images/35cm-p7.jpg', desc: 'מנדלת פתיתי שלג סרוגה בעבודת יד, קוטר כ-35 ס״מ.' },
+  { id: 'p8', name: 'מנדלת ענווה 30 ס״מ', price: 300, image: 'images/30cm-p8.jpg', desc: 'מנדלת ענווה סרוגה בעבודת יד, קוטר כ-30 ס״מ.' },
 ];
 
 export function findProduct(id) {
