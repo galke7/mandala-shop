@@ -11,6 +11,7 @@ export const products = [
   { id: 'p9', name: 'מנדלה לבנה 35 ס״מ', price: 320, image: 'images/35cm-p9.jpg', desc: 'מנדלה לבנה סרוגה בעבודת יד, קוטר כ-35 ס״מ.' },
   { id: 'p10', name: 'מנדלת שמחה 50 ס״מ', price: 400, image: 'images/50cm-p10.jpg', desc: 'מנדלת שמחה סרוגה בעבודת יד, קוטר כ-50 ס״מ.' },
   { id: 'p11', name: 'מנדלת שמחה 50 ס״מ', price: 400, image: 'images/50cm-p11.jpg', desc: 'מנדלת שמחה סרוגה בעבודת יד, קוטר כ-50 ס״מ.' },
+  { id: 'p12', name: 'מנדלת פשטות 20 ס״מ', price: 270, image: 'images/20cm-p12.jpg', desc: 'מנדלת פשטות סרוגה בעבודת יד, קוטר כ-20 ס״מ.', salePrice: 240 },
 ];
 
 export function findProduct(id) {
